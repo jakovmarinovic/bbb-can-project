@@ -1,0 +1,17 @@
+# Buildroot output
+output/
+
+# Downloads
+dl/
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log

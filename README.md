@@ -4,7 +4,7 @@ BeagleBone Black CAN communication project using Buildroot.
 
 ## Repository Structure
 
-```text
+```
 bbb-can-project/
 ├── buildroot/      # Buildroot submodule
 ├── br2-external/   # Project-specific Buildroot extensions
@@ -34,7 +34,7 @@ make BR2_EXTERNAL=../br2-external \
 
 ## Generated Images
 
-```text
+```
 output/images/
 ├── sdcard.img
 ├── MLO
@@ -44,7 +44,52 @@ output/images/
 └── rootfs.ext2
 ```
 
-## Target Hardware
+## Writing Image to SD card
 
-- BeagleBone Black
-- CAN cape (to be integrated)
+Replace /dev/sdX with the correct SD card device
+
+```
+sudo dd if=output/images/sdcard.img \
+        of=/dev/sdX \
+        bs=4M \
+        status=progress \
+        conv=fsync
+```
+Verify the partitions:
+```
+lsblk
+sudo fdisk -l /dev/sdX
+```
+Expected layout:
+
+Partition 1 : FAT32 boot partition (~16 MB)
+Partition 2 : Linux root filesystem (~512 MB)
+
+## Serial Console Connection (FT232 USB-UART)
+
+A USB-to-UART adapter was used for debugging and boot verification.
+
+## FT232 Wiring
+
+| FT232 Wire  | BeagleBone Black J1 Header |
+|-------------|----------------------------|
+| Yellow (TX) | Pin 5 (UART0 RX)           |
+| Orange (RX) | Pin 4 (UART0 TX)           |
+| Black (GND) | Pin 1 (GND)                |
+
+
+## Serial Terminal
+
+On the host PC:
+
+```bash
+picocom -b 115200 /dev/ttyUSB0
+```
+The board booted into the custom Buildroot system and presented the login prompt:
+
+```text
+Welcome to Buildroot
+buildroot login:
+```
+
+

@@ -113,5 +113,17 @@ When connected to a Linux host, the BBB appears as:
 
 ```bash
 /dev/ttyACM0
+
 ```
+A BusyBox getty is started on /dev/ttyGS0, allowing login over USB without a separate USB-to-UART adapter.
+
+Host connection:
+```
+picocom -b 115200 /dev/ttyACM0
+```
+Device side:
+```
+/dev/ttyGS0
+```
+
 

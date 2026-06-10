@@ -92,4 +92,26 @@ Welcome to Buildroot
 buildroot login:
 ```
 
+## USB Gadget Serial Console (USB Device Port)
+
+The BeagleBone Black USB device port was configured as a USB CDC ACM gadget.
+
+A startup script is installed through the Buildroot rootfs overlay:
+
+```
+br2-external/overlays/bbb-usb-gadget/
+```
+
+At boot the script:
+
+1. Mounts ConfigFS
+2. Creates a USB gadget
+3. Registers a CDC ACM serial function
+4. Binds the gadget to `musb-hdrc.0`
+
+When connected to a Linux host, the BBB appears as:
+
+```bash
+/dev/ttyACM0
+```
 
